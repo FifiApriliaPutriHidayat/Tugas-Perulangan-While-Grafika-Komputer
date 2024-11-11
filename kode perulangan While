@@ -1,0 +1,83 @@
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(220);
+}
+let startTime; // Waktu mulai program
+let currentPattern = 'diagonal'; // Mulai dengan pola diagonal
+
+function setup() {
+  createCanvas(400, 400);
+  startTime = millis(); // Menyimpan waktu mulai
+  background(255);
+}
+
+function draw() {
+  let elapsedTime = millis() - startTime; // Menghitung waktu yang telah berlalu
+
+  // Ganti pola setiap 3 detik
+  if (elapsedTime > 3000) {
+    switchPattern();
+    startTime = millis(); // Reset waktu mulai
+    background(255); // Bersihkan kanvas
+  }
+
+  // Menjalankan pola sesuai jenis yang aktif
+  if (currentPattern === 'diagonal') {
+    drawDiagonalPattern();
+  } else if (currentPattern === 'spiral') {
+    drawSpiralPattern();
+  } else if (currentPattern === 'verticalLines') {
+    drawVerticalLinesPattern();
+  }
+}
+
+// Mengubah pola setiap 3 detik
+function switchPattern() {
+  if (currentPattern === 'diagonal') {
+    currentPattern = 'spiral';
+  } else if (currentPattern === 'spiral') {
+    currentPattern = 'verticalLines';
+  } else if (currentPattern === 'verticalLines') {
+    currentPattern = 'diagonal';
+  }
+}
+
+// Menggambar pola diagonal dengan `while`
+function drawDiagonalPattern() {
+  let x = 0;
+  let y = 0;
+  while (x < width && y < height) {
+    fill(random(100, 255), random(100, 255), random(255));
+    ellipse(x, y, 20, 20); // Menggambar lingkaran kecil
+    x += 30;
+    y += 30;
+  }
+}
+
+// Menggambar pola spiral dengan `while`
+function drawSpiralPattern() {
+  let angle = 0;
+  let radius = 5;
+  while (radius < 200) {
+    let x = width / 2 + cos(angle) * radius;
+    let y = height / 2 + sin(angle) * radius;
+    fill(random(255), random(255), random(255), 150);
+    ellipse(x, y, 15, 15); // Menggambar lingkaran kecil
+    angle += 0.3;
+    radius += 5;
+  }
+}
+
+// Menggambar pola garis vertikal dengan `while`
+function drawVerticalLinesPattern() {
+  let x = 0;
+  while (x < width) {
+    stroke(random(255), random(100, 255), 0);
+    strokeWeight(2);
+    line(x, 0, x, height); // Menggambar garis vertikal
+    x += 20;
+  }
+}
